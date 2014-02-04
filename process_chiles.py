@@ -12,7 +12,7 @@ def run_casa(ms, sets):
 	casafile.write("\n\n")
 	casafile.write("default('exportfits')\n")
 	casafile.write("imagename={0}\n".format(sets["imagename"]))
-	casafile.write("fitsimage={0}\n".format(sets["fitsname"]))
+	casafile.write("fitsimage={0}\n".format(sets["fitsimage"]))
 	casafile.write("exportfits()\n")
 	casafile.close()
 	subprocess.call("casapy --logfile {0}_log.txt --nologger -c {1}".format(ms, filename), shell=True)
@@ -22,7 +22,7 @@ def run_casa(ms, sets):
 
 datadir="/pi1storage/obs_data/evla/chiles_testdata/"
 
-vis = sys.argv[1].split(".txt")[0]
+vis = sys.argv[1].split("/")[-1].split(".txt")[0]
 imagename=vis+".mfs_wProj"
 clean_args = {
 	"vis":"'{0}'".format(os.path.join(datadir,vis)),
@@ -40,13 +40,14 @@ clean_args = {
 	"wprojplanes":128,
 	"threshold":"'0.02mJy'",
 	"niter":10000,
-	"fitsname":"'{0}.fits'".format(imagename),
+	"fitsimage":"'{0}.fits'".format(imagename),
 }
 
-run_casa(vis, clean_args) 
-
-	
-	
+run_casa(vis, clean_args)
+fitsfile=imagename+".fits"
+print "Transferring {0} to Soton...".format(fitsfile)
+subprocess.call("scp -r fitsimages/{0} as24v07@152.78.192.15:/media/RAIDC/CHILES/images/".format(fitsfile), shell=True)
+print "Done!"
 	
 #For self-cal
     # models=[".model.tt0",".model.tt1"]
