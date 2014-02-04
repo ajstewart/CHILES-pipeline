@@ -12,7 +12,7 @@ def run_casa(ms, sets):
 	casafile.write("\n\n")
 	casafile.write("default('exportfits')\n")
 	casafile.write("imagename={0}\n".format(sets["imagename"]))
-	casafile.write("fitsimage={0}.fits\n".format(sets["imagename"]))
+	casafile.write("fitsimage={0}\n".format(sets["fitsname"]))
 	casafile.write("exportfits()\n")
 	casafile.close()
 	subprocess.call("casapy --logfile {0}_log.txt --nologger -c {1}".format(ms, filename), shell=True)
@@ -40,6 +40,7 @@ clean_args = {
 	"wprojplanes":128,
 	"threshold":"'0.02mJy'",
 	"niter":10000,
+	"fitsname":"'{0}.fits'".format(imagename),
 }
 
 run_casa(vis, clean_args) 
