@@ -11,7 +11,7 @@ def run_casa(ms, sets):
 	casafile.write("\nclean()")
 	casafile.write("\n\n")
 	casafile.write("default('exportfits')\n")
-	casafile.write("imagename={0}\n".format(sets["imagename"]))
+	casafile.write("imagename={0}\n".format(sets["imagename"]).replace(".mfs_wProj", ".mfs_wProj.image.tt0"))
 	casafile.write("fitsimage={0}\n".format(sets["fitsimage"]))
 	casafile.write("exportfits()\n")
 	casafile.close()
@@ -40,7 +40,7 @@ clean_args = {
 	"wprojplanes":128,
 	"threshold":"'0.02mJy'",
 	"niter":10000,
-	"fitsimage":"'{0}.fits'".format(imagename),
+	"fitsimage":"'{0}.image.tt0.fits'".format(imagename),
 }
 
 run_casa(vis, clean_args)
