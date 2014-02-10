@@ -15,14 +15,14 @@ def run_casa(ms, sets):
 	casafile.write("fitsimage={0}\n".format(sets["fitsimage"]))
 	casafile.write("exportfits()\n")
 	casafile.close()
-	subprocess.call("casapy --logfile {0}_log.txt --nologger -c {1}".format(ms, filename), shell=True)
-	# os.remove(filename)
-	subprocess.call("mv *_log.txt logs", shell=True)
-	subprocess.call("mv *.fits fitsimages", shell=True)
+	subprocess.call("casapy --logfile {0}.log --nologger -c {1}".format(ms, filename), shell=True)
+	os.remove(filename)
+	subprocess.call("mv *.log logs/", shell=True)
+	subprocess.call("mv *.fits fitsimages/", shell=True)
 
 datadir="/pi1storage/obs_data/evla/chiles_testdata/"
 
-vis = sys.argv[1].split("/")[-1].split(".txt")[0]
+vis = sys.argv[1].split("/")[-1].split(".NEW")[0]
 imagename=vis+".mfs_wProj"
 clean_args = {
 	"vis":"'{0}'".format(os.path.join(datadir,vis)),
