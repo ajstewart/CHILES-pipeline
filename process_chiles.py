@@ -44,7 +44,7 @@ clean_args = {
 }
 
 run_casa(vis, clean_args)
-fitsfile=imagename+".fits"
+fitsfile=imagename+".image.tt0.fits"
 print "Transferring {0} to Soton...".format(fitsfile)
 subprocess.call("scp -r fitsimages/{0} as24v07@152.78.192.15:/media/RAIDC/CHILES/images/".format(fitsfile), shell=True)
 print "Done!"
